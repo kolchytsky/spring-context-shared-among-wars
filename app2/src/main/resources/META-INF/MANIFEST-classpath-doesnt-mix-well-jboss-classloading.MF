@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+Class-Path: common-1.0-SNAPSHOT.jar spring-beans-4.1.5.RELEASE.jar spring-context-4.1.5.RELEASE.jar spring-core-4.1.5.RELEASE.jar spring-aop-4.1.5.RELEASE.jar jcl-over-slf4j-1.7.10.jar log4j-api-2.1.jar log4j-core-2.1.jar log4j-slf4j-impl-2.1.jar slf4j-api-1.7.10.jar
+Created-By: coldenergia

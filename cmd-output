@@ -1,0 +1,118 @@
+localhost:8080/app1/process-nothings
+localhost:8080/app2/nothing
+
+these URLs trigger usage of the same bean defined in a shared spring context
+one of the web applications is configured primarily via XML, whereas the other is configured
+mainly via annotations
+
+
+[coldenergia@COLDENERGIA standalone]$ rm -rf log/
+[coldenergia@COLDENERGIA standalone]$ rm -rf tmp/
+[coldenergia@COLDENERGIA standalone]$ rm deployments/ce-ear.ear.deployed 
+[coldenergia@COLDENERGIA standalone]$ cp ~/code/java/idea_workspace/spring-context-shared-among-wars/ear/target/ce-ear.ear deployments/ce-ear.ear
+
+
+
+
+[coldenergia@COLDENERGIA ~]$ cd /opt/jboss-eap-6.3/bin/
+[coldenergia@COLDENERGIA bin]$ bash standalone.sh
+=========================================================================
+
+  JBoss Bootstrap Environment
+
+  JBOSS_HOME: /opt/jboss-eap-6.3
+
+  JAVA: java
+
+  JAVA_OPTS:  -server -XX:+UseCompressedOops -verbose:gc -Xloggc:"/opt/jboss-eap-6.3/standalone/log/gc.log" -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=5 -XX:GCLogFileSize=3M -XX:-TraceClassUnloading -Xms1303m -Xmx1303m -XX:MaxPermSize=256m -Djava.net.preferIPv4Stack=true -Djboss.modules.system.pkgs=org.jboss.byteman -Djava.awt.headless=true -agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=n
+
+=========================================================================
+
+Listening for transport dt_socket at address: 8787
+21:04:18,103 INFO  [org.jboss.modules] (main) JBoss Modules version 1.3.0.Final-redhat-2
+21:04:18,279 INFO  [org.jboss.msc] (main) JBoss MSC version 1.1.5.Final
+21:04:18,337 INFO  [org.jboss.as] (MSC service thread 1-6) JBAS015899: JBoss EAP 6.3.0.Alpha1 (AS 7.4.0.Final-redhat-4) starting
+21:04:19,011 INFO  [org.xnio] (MSC service thread 1-8) XNIO Version 3.0.9.GA-redhat-1
+21:04:19,012 INFO  [org.jboss.as.server] (Controller Boot Thread) JBAS015888: Creating http management service using socket-binding (management-http)
+21:04:19,015 INFO  [org.xnio.nio] (MSC service thread 1-8) XNIO NIO Implementation Version 3.0.9.GA-redhat-1
+21:04:19,026 INFO  [org.jboss.remoting] (MSC service thread 1-8) JBoss Remoting version (unknown)
+21:04:19,046 INFO  [org.jboss.as.clustering.infinispan] (ServerService Thread Pool -- 30) JBAS010280: Activating Infinispan subsystem.
+21:04:19,069 INFO  [org.jboss.as.naming] (ServerService Thread Pool -- 38) JBAS011800: Activating Naming Subsystem
+21:04:19,073 INFO  [org.jboss.as.connector.logging] (MSC service thread 1-2) JBAS010408: Starting JCA Subsystem (IronJacamar 1.0.24.Final)
+21:04:19,084 WARN  [org.jboss.as.txn] (ServerService Thread Pool -- 46) JBAS010153: Node identifier property is set to the default value. Please make sure it is unique.
+21:04:19,084 INFO  [org.jboss.as.jsf] (ServerService Thread Pool -- 36) JBAS012605: Activated the following JSF Implementations: [main, 1.2]
+21:04:19,091 INFO  [org.jboss.as.security] (ServerService Thread Pool -- 44) JBAS013171: Activating Security Subsystem
+21:04:19,106 INFO  [org.jboss.as.security] (MSC service thread 1-2) JBAS013170: Current PicketBox version=4.0.19.SP4-redhat-1
+21:04:19,110 INFO  [org.jboss.as.webservices] (ServerService Thread Pool -- 48) JBAS015537: Activating WebServices Extension
+21:04:19,123 INFO  [org.jboss.as.naming] (MSC service thread 1-6) JBAS011802: Starting Naming Service
+21:04:19,127 INFO  [org.jboss.as.mail.extension] (MSC service thread 1-7) JBAS015400: Bound mail session [java:jboss/mail/Default]
+21:04:19,156 INFO  [org.jboss.as.connector.subsystems.datasources] (ServerService Thread Pool -- 26) JBAS010403: Deploying JDBC-compliant driver class org.h2.Driver (version 1.3)
+21:04:19,383 INFO  [org.apache.coyote.http11.Http11NioProtocol] (MSC service thread 1-7) JBWEB003001: Coyote HTTP/1.1 initializing on : http-/127.0.0.1:8080
+21:04:19,404 INFO  [org.apache.coyote.http11.Http11NioProtocol] (MSC service thread 1-7) JBWEB003000: Coyote HTTP/1.1 starting on: http-/127.0.0.1:8080
+21:04:19,483 INFO  [org.jboss.ws.common.management] (MSC service thread 1-4) JBWS022052: Starting JBoss Web Services - Stack CXF Server 4.3.0.CR2
+21:04:19,511 INFO  [org.jboss.as.server.deployment.scanner] (MSC service thread 1-4) JBAS015012: Started FileSystemDeploymentService for directory /opt/jboss-eap-6.3/standalone/deployments
+21:04:19,517 INFO  [org.jboss.as.remoting] (MSC service thread 1-3) JBAS017100: Listening on 127.0.0.1:4447
+21:04:19,518 INFO  [org.jboss.as.remoting] (MSC service thread 1-2) JBAS017100: Listening on 127.0.0.1:9999
+21:04:19,518 INFO  [org.jboss.as.server.deployment] (MSC service thread 1-7) JBAS015876: Starting deployment of "ce-ear.ear" (runtime-name: "ce-ear.ear")
+21:04:19,538 INFO  [org.jboss.as.connector.subsystems.datasources] (MSC service thread 1-4) JBAS010400: Bound data source [java:jboss/datasources/ExampleDS]
+21:04:20,063 INFO  [org.jboss.as.server.deployment] (MSC service thread 1-6) JBAS015876: Starting deployment of "null" (runtime-name: "app1-1.0-SNAPSHOT.war")
+21:04:20,063 INFO  [org.jboss.as.server.deployment] (MSC service thread 1-5) JBAS015876: Starting deployment of "null" (runtime-name: "app2-1.0-SNAPSHOT.war")
+21:04:20,257 INFO  [org.jboss.web] (ServerService Thread Pool -- 58) JBAS018210: Register web context: /app2
+21:04:20,267 INFO  [org.jboss.web] (ServerService Thread Pool -- 50) JBAS018210: Register web context: /app1
+21:04:20,276 INFO  [com.coldenergia.springcontextsharedamongwars.app2.InitAppListener] (ServerService Thread Pool -- 58) App2 has been started.
+21:04:20,277 INFO  [org.apache.catalina.core.ContainerBase.[jboss.web].[default-host].[/app1]] (ServerService Thread Pool -- 50) Initializing Spring root WebApplicationContext
+21:04:20,277 INFO  [org.apache.catalina.core.ContainerBase.[jboss.web].[default-host].[/app2]] (ServerService Thread Pool -- 58) Initializing Spring root WebApplicationContext
+21:04:20,277 INFO  [org.springframework.web.context.ContextLoader] (ServerService Thread Pool -- 50) Root WebApplicationContext: initialization started
+21:04:20,277 INFO  [org.springframework.web.context.ContextLoader] (ServerService Thread Pool -- 58) Root WebApplicationContext: initialization started
+21:04:20,328 INFO  [org.springframework.context.support.ClassPathXmlApplicationContext] (ServerService Thread Pool -- 58) Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@4b2e9964: startup date [Sun Mar 08 21:04:20 EET 2015]; root of context hierarchy
+21:04:20,353 INFO  [org.springframework.beans.factory.xml.XmlBeanDefinitionReader] (ServerService Thread Pool -- 58) Loading XML bean definitions from URL [vfs:/content/ce-ear.ear/lib/common-1.0-SNAPSHOT.jar/beanRefContext.xml]
+21:04:20,510 INFO  [org.springframework.context.support.ClassPathXmlApplicationContext] (ServerService Thread Pool -- 58) Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@2131b7cf: startup date [Sun Mar 08 21:04:20 EET 2015]; root of context hierarchy
+21:04:20,511 INFO  [org.springframework.beans.factory.xml.XmlBeanDefinitionReader] (ServerService Thread Pool -- 58) Loading XML bean definitions from class path resource [common-context.xml]
+21:04:20,535 INFO  [com.coldenergia.springcontextsharedamongwars.common.SimpleNothingRepository] (ServerService Thread Pool -- 58) com.coldenergia.springcontextsharedamongwars.common.SimpleNothingRepository has been instantiated
+21:04:20,544 INFO  [org.springframework.web.context.support.XmlWebApplicationContext] (ServerService Thread Pool -- 50) Refreshing Root WebApplicationContext: startup date [Sun Mar 08 21:04:20 EET 2015]; parent: ApplicationContext 'ear.context'
+21:04:20,544 INFO  [org.springframework.web.context.support.AnnotationConfigWebApplicationContext] (ServerService Thread Pool -- 58) Refreshing Root WebApplicationContext: startup date [Sun Mar 08 21:04:20 EET 2015]; parent: ApplicationContext 'ear.context'
+21:04:20,545 INFO  [org.springframework.beans.factory.xml.XmlBeanDefinitionReader] (ServerService Thread Pool -- 50) Loading XML bean definitions from URL [vfs:/content/ce-ear.ear/app1-1.0-SNAPSHOT.war/WEB-INF/classes/app1-context.xml]
+21:04:20,559 INFO  [org.springframework.web.context.support.AnnotationConfigWebApplicationContext] (ServerService Thread Pool -- 58) Successfully resolved class for [com.coldenergia.springcontextsharedamongwars.app2.App2Configuration]
+21:04:20,594 INFO  [org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor] (ServerService Thread Pool -- 50) JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+21:04:20,615 INFO  [org.springframework.web.context.ContextLoader] (ServerService Thread Pool -- 50) Root WebApplicationContext: initialization completed in 338 ms
+21:04:20,615 INFO  [com.coldenergia.springcontextsharedamongwars.app1.InitAppListener] (ServerService Thread Pool -- 50) App1 has been started.
+21:04:20,628 INFO  [org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor] (ServerService Thread Pool -- 58) JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+21:04:20,634 INFO  [org.springframework.web.context.ContextLoader] (ServerService Thread Pool -- 58) Root WebApplicationContext: initialization completed in 357 ms
+21:04:20,654 INFO  [org.apache.catalina.core.ContainerBase.[jboss.web].[default-host].[/app1]] (ServerService Thread Pool -- 50) Initializing Spring FrameworkServlet 'dispatcher'
+21:04:20,655 INFO  [org.springframework.web.servlet.DispatcherServlet] (ServerService Thread Pool -- 50) FrameworkServlet 'dispatcher': initialization started
+21:04:20,657 INFO  [org.springframework.web.context.support.XmlWebApplicationContext] (ServerService Thread Pool -- 50) Refreshing WebApplicationContext for namespace 'dispatcher-servlet': startup date [Sun Mar 08 21:04:20 EET 2015]; parent: Root WebApplicationContext
+21:04:20,658 INFO  [org.springframework.beans.factory.xml.XmlBeanDefinitionReader] (ServerService Thread Pool -- 50) Loading XML bean definitions from URL [vfs:/content/ce-ear.ear/app1-1.0-SNAPSHOT.war/WEB-INF/classes/app1-context-web.xml]
+21:04:20,690 INFO  [org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor] (ServerService Thread Pool -- 50) JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+21:04:20,721 INFO  [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] (ServerService Thread Pool -- 50) Mapped URL path [/process-nothings] onto handler 'simpleController'
+21:04:20,721 INFO  [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] (ServerService Thread Pool -- 50) Mapped URL path [/process-nothings.*] onto handler 'simpleController'
+21:04:20,721 INFO  [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] (ServerService Thread Pool -- 50) Mapped URL path [/process-nothings/] onto handler 'simpleController'
+21:04:20,808 INFO  [org.springframework.web.servlet.DispatcherServlet] (ServerService Thread Pool -- 50) FrameworkServlet 'dispatcher': initialization completed in 153 ms
+21:04:20,839 INFO  [org.jboss.as.server] (ServerService Thread Pool -- 27) JBAS018559: Deployed "ce-ear.ear" (runtime-name : "ce-ear.ear")
+21:04:20,960 INFO  [org.jboss.as] (Controller Boot Thread) JBAS015961: Http management interface listening on http://127.0.0.1:9990/management
+21:04:20,961 INFO  [org.jboss.as] (Controller Boot Thread) JBAS015951: Admin console listening on http://127.0.0.1:9990
+21:04:20,961 INFO  [org.jboss.as] (Controller Boot Thread) JBAS015874: JBoss EAP 6.3.0.Alpha1 (AS 7.4.0.Final-redhat-4) started in 3136ms - Started 278 of 316 services (64 services are lazy, passive or on-demand)
+21:04:24,132 INFO  [com.coldenergia.springcontextsharedamongwars.app1.App1NothingProcessor] (http-/127.0.0.1:8080-4) App1 nothing processor started processing nothings...
+21:04:24,133 INFO  [com.coldenergia.springcontextsharedamongwars.app1.App1NothingProcessor] (http-/127.0.0.1:8080-4) App1 has processed Nothing{id=2, name='nothing-2'}
+21:04:24,133 INFO  [com.coldenergia.springcontextsharedamongwars.app1.App1NothingProcessor] (http-/127.0.0.1:8080-4) App1 has processed Nothing{id=1, name='nothing-1'}
+21:04:26,045 INFO  [org.apache.catalina.core.ContainerBase.[jboss.web].[default-host].[/app2]] (http-/127.0.0.1:8080-6) Initializing Spring FrameworkServlet 'dispatcher'
+21:04:26,046 INFO  [org.springframework.web.servlet.DispatcherServlet] (http-/127.0.0.1:8080-6) FrameworkServlet 'dispatcher': initialization started
+21:04:26,053 INFO  [org.springframework.web.context.support.AnnotationConfigWebApplicationContext] (http-/127.0.0.1:8080-6) Refreshing WebApplicationContext for namespace 'dispatcher-servlet': startup date [Sun Mar 08 21:04:26 EET 2015]; parent: Root WebApplicationContext
+21:04:26,056 INFO  [org.springframework.web.context.support.AnnotationConfigWebApplicationContext] (http-/127.0.0.1:8080-6) Successfully resolved class for [com.coldenergia.springcontextsharedamongwars.app2.WebConfiguration]
+21:04:26,166 INFO  [org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor] (http-/127.0.0.1:8080-6) JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+21:04:26,262 INFO  [org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping] (http-/127.0.0.1:8080-6) Mapped "{[/nothing],methods=[GET],params=[],headers=[],consumes=[],produces=[],custom=[]}" onto public com.coldenergia.springcontextsharedamongwars.common.Nothing com.coldenergia.springcontextsharedamongwars.app2.controller.SimpleController.processedNothings()
+21:04:26,288 INFO  [org.hibernate.validator.internal.util.Version] (http-/127.0.0.1:8080-6) HV000001: Hibernate Validator 4.3.1.Final-redhat-1
+21:04:26,324 INFO  [org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter] (http-/127.0.0.1:8080-6) Looking for @ControllerAdvice: WebApplicationContext for namespace 'dispatcher-servlet': startup date [Sun Mar 08 21:04:26 EET 2015]; parent: Root WebApplicationContext
+21:04:26,342 INFO  [org.springframework.web.servlet.DispatcherServlet] (http-/127.0.0.1:8080-6) FrameworkServlet 'dispatcher': initialization completed in 291 ms
+21:04:26,346 INFO  [com.coldenergia.springcontextsharedamongwars.app2.processing.App2NothingProcessor] (http-/127.0.0.1:8080-6) App2 has processed Nothing{id=2, name='nothing-2'}
+21:04:26,346 INFO  [com.coldenergia.springcontextsharedamongwars.app2.processing.App2NothingProcessor] (http-/127.0.0.1:8080-6) App2 has processed Nothing{id=1, name='nothing-1'}
+21:04:27,674 INFO  [com.coldenergia.springcontextsharedamongwars.app1.App1NothingProcessor] (http-/127.0.0.1:8080-8) App1 nothing processor started processing nothings...
+21:04:27,675 INFO  [com.coldenergia.springcontextsharedamongwars.app1.App1NothingProcessor] (http-/127.0.0.1:8080-8) App1 has processed Nothing{id=2, name='nothing-2'}
+21:04:27,675 INFO  [com.coldenergia.springcontextsharedamongwars.app1.App1NothingProcessor] (http-/127.0.0.1:8080-8) App1 has processed Nothing{id=1, name='nothing-1'}
+21:04:28,898 INFO  [com.coldenergia.springcontextsharedamongwars.app2.processing.App2NothingProcessor] (http-/127.0.0.1:8080-10) App2 has processed Nothing{id=2, name='nothing-2'}
+21:04:28,899 INFO  [com.coldenergia.springcontextsharedamongwars.app2.processing.App2NothingProcessor] (http-/127.0.0.1:8080-10) App2 has processed Nothing{id=1, name='nothing-1'}
+21:04:29,881 INFO  [com.coldenergia.springcontextsharedamongwars.app2.processing.App2NothingProcessor] (http-/127.0.0.1:8080-12) App2 has processed Nothing{id=2, name='nothing-2'}
+21:04:29,882 INFO  [com.coldenergia.springcontextsharedamongwars.app2.processing.App2NothingProcessor] (http-/127.0.0.1:8080-12) App2 has processed Nothing{id=1, name='nothing-1'}
+21:04:30,915 INFO  [com.coldenergia.springcontextsharedamongwars.app1.App1NothingProcessor] (http-/127.0.0.1:8080-14) App1 nothing processor started processing nothings...
+21:04:30,916 INFO  [com.coldenergia.springcontextsharedamongwars.app1.App1NothingProcessor] (http-/127.0.0.1:8080-14) App1 has processed Nothing{id=2, name='nothing-2'}
+21:04:30,916 INFO  [com.coldenergia.springcontextsharedamongwars.app1.App1NothingProcessor] (http-/127.0.0.1:8080-14) App1 has processed Nothing{id=1, name='nothing-1'}
+
